@@ -1,90 +1,140 @@
-// ?events
-const ürünlerPanelDivi = document.getElementById("product-painel");
-console.log(ürünlerPanelDivi);
+//const taxRate = 0.18;
+// const shippingPrice = 25.99;
+// const freeShippingPrice = 3000;
 
-//?Daha az event yazmak icin ve traversing yöntemlerini kullanarak islem yapabilmek icin tüm '-','+' ve cöp kutusunu kapsayan en yakin ortak parent'a tek event verdim
-ürünlerPanelDivi.addEventListener("click", (e) => {
-  if (e.target.classList.contains("fa-minus")) {
-    if (e.target.nextElementSibling.innerText > 1) {
-      e.target.nextElementSibling.innerText--;
-      ürünCarpiBirimFiyat(e.target.closest(".main__product-info"));
-    } else {
-      if (confirm("Silmek istediğinizden emin misiniz?")) {
-        e.target.closest(".main__product").remove();
-        araToplam();
-      }
-    }
-  } else if (e.target.classList.contains("fa-plus")) {
-    e.target.previousElementSibling.textContent++;
-    ürünCarpiBirimFiyat(e.target.closest(".main__product-info")); //?argüman olarak tiklanan yere class'i 'main__product-info' olan en yakin parent(div dom objesi)
-  } else if (e.target.classList.contains("fa-trash-can")) {
-    if (confirm("Silmek istediğinizden emin misiniz?")) {
-      // e.target.closest(".main__product").remove();
-      e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.remove();
-      araToplam();
-    }
+//localStorage vs. sessionStorage
+window.addEventListener("load", () => {
+  // localStorage.setItem("taxRate", taxRate);
+  // localStorage.setItem("shippingPrice", shippingPrice);
+  // localStorage.setItem("freeShippingPrice", freeShippingPrice);
+
+  ///total cart calc.
+  calculateCartPrice();
+});
+
+const navbarList = document.querySelector(".nav__list");
+const productList = document.querySelector("div.main__product-painel");
+
+//capturing
+navbarList.addEventListener("click", (e) => {
+  if (
+    e.target.getAttribute("class") == "nav__list--btn" ||
+    e.target.getAttribute("class") == "fa-regular fa-trash-can"
+  ) {
+    //e.target.parentElement.firstElementChild.innerText = "My Cart";
+    //e.target.previousElementSibling.innerText = "My Cart";
+    //e.target vs. e.currentTarget
+    //foreach ==> array, nodeList
+    productList.innerText = "No Product!";
+    e.currentTarget.firstElementChild.innerText = "My Cart";
+    calculateCartPrice();
   }
 });
 
-//?ürün adedine bagli olarak ortaya cikan fiyatlari bulma
-const ürünCarpiBirimFiyat = (ürünPaneli) => {
-  //?parametre olarak bir dom objesi verdik
-  // console.log(miktar);
-  let miktar = ürünPaneli.querySelector("#quantity").innerText;
-  console.log(miktar);
-  let fiyat = ürünPaneli.querySelector("strong").innerText;
-  // console.log(fiyat);
-  let miktarCarpiFiyat = ürünPaneli.querySelector(".main__product-line-price");
-  miktarCarpiFiyat.innerText = (miktar * fiyat).toFixed(2);
-  console.log(miktarCarpiFiyat);
-  araToplam();
+//capturing
+productList.addEventListener("click", (e) => {
+  //minus
+  if (e.target.className == "fa-solid fa-minus") {
+    if (e.target.nextElementSibling.innerText > 1) {
+      e.target.nextElementSibling.innerText--;
+      calculateProductPrice(e.target);
+    } else {
+      if (
+        confirm(
+          `${
+            e.target.closest(".main__product-info").querySelector("h2")
+              .innerText
+          } will be removed!`
+        )
+      ) {
+        e.target.closest(".main__product").remove();
+        calculateCartPrice();
+      }
+    }
+  }
+  //plus
+  else if (e.target.classList.contains("fa-plus")) {
+    e.target.previousElementSibling.innerText++;
+    calculateProductPrice(e.target);
+  }
+  //remove
+  else if (e.target.id == "remove-product") {
+    if (
+      confirm(
+        `${
+          e.target.closest(".main__product-info").querySelector("h2").innerText
+        } will be removed!`
+      )
+    ) {
+      e.target.closest(".main__product").remove();
+      calculateCartPrice();
+    }
+  } else {
+    alert("other element clicked");
+  }
+  //calculateCartPrice();
+});
+
+//target == minus || plus btn
+const calculateProductPrice = (btn) => {
+  //product line calculations
+  const infoDiv = btn.closest(".main__product-info");
+  //console.log(infoDiv);
+  const price = infoDiv.querySelector(".main__product-price strong").innerText;
+  //console.log(price);
+  const quantity = infoDiv.querySelector("#quantity").innerText;
+  console.log(quantity);
+  infoDiv.querySelector(".main__product-line-price").innerText = (
+    price * quantity
+  ).toFixed(2);
+  // console.log(typeof (price * quantity).toFixed(2));
+  calculateCartPrice();
 };
 
-const araToplam = () => {
-  //?ürün adedine bagli olarak ortaya cikan fiyatlardan ara toplami(vergi ve kargo eklenmemis) bulma islemleri
-  const miktarCarpiFiyatlarListesi = document.querySelectorAll(
+const calculateCartPrice = () => {
+  //cart total calculations
+  const productPriceDivs = productList.querySelectorAll(
     ".main__product-line-price"
-  ); //NodeList döndürür
-  console.log(miktarCarpiFiyatlarListesi); //?NodeList(3) [div.main__product-line-price.dollar, div.main__product-line-price.dollar, div.main__product-line-price.dollar]
-  let subTotal = 0; //?secilen ürünlerin vergi ve kargo ücreti eklenmemis tutari
-  miktarCarpiFiyatlarListesi.forEach((item) => {
-    // console.log(item.innerText);//1474.99 185.99 89.99
-    subTotal += parseFloat(item.innerText);
-  });
+  );
+  //?reduce calculation Homework!! reduce() metodu ile
+  const subTotalAlternatif = [...productPriceDivs];
+  let subtotal = subTotalAlternatif.reduce((acc, curr) => {
+    return acc + parseFloat(curr.innerText);
+  }, 0);
+  console.log(subtotal);
 
-  //?kargo ve vergi ekleme islemleri
-  const vergiOrani = 0.18;
-  const kargoÜcreti = 25.99;
+  //?forEach() metodu ile
+  //     let subtotal = 0;
+  // productPriceDivs.forEach((price) => {
+  //   subtotal += parseFloat(price.innerText);
+  // });
+  //   console.log(subtotal);
 
-  const araToplamFiyat = document.querySelector(".main__sum-price");
-  araToplamFiyat.innerText = subTotal.toFixed(2);
+  const taxPrice = parseFloat(subtotal * localStorage.getItem("taxRate"));
+  console.log(taxPrice);
 
-  const shipping = document.querySelector(".card-shipping");
-  if (araToplamFiyat.innerText > 3000 || araToplamFiyat.innerText <= 0) {
-    shipping.innerText = 0;
+  const shippingPrice =
+    subtotal > 0 && subtotal < localStorage.getItem("freeShippingPrice")
+      ? parseFloat(localStorage.getItem("shippingPrice"))
+      : 0;
+
+  const totalPrice = (subtotal + shippingPrice + taxPrice).toFixed(2);
+  console.log(totalPrice);
+
+  document.querySelector(".main__total h2").innerText = subtotal.toFixed(2);
+  document.querySelector("#cart-shipping span:nth-child(2)").innerText =
+    shippingPrice.toFixed(2);
+  document.querySelector("#cart-tax span:nth-child(2)").innerText =
+    taxPrice.toFixed(2);
+  document.querySelector("#cart-total").lastElementChild.innerText = totalPrice;
+
+  ////////need to be improved!!
+  if (productList.querySelectorAll(".main__product").length == 0) {
+    productList.innerText = "No Product!";
+    navbarList.firstElementChild.innerText = "My Cart";
   } else {
-    shipping.innerText = 25.99;
+    navbarList.firstElementChild.innerText = `My Cart (${
+      productList.querySelectorAll(".main__product").length
+    } Products)`;
   }
-
-  const tax = document.querySelector(".card-tax");
-  tax.innerText = (araToplamFiyat.innerText * vergiOrani).toFixed(2);
-
-  //?kargo ve vergi eklenmis en son fiyat
-
-  const genelToplam = document.querySelector(".total");
-  genelToplam.innerText = (
-    parseFloat(araToplamFiyat.innerText) +
-    parseFloat(shipping.innerText) +
-    parseFloat(tax.innerText)
-  ).toFixed(2);
-
-  // if (subTotal <= 0 || subTotal >= 3000) {
-  //   kargo = 0;
-  // } else {
-  //   kargo = 25;
-  // }
-  // const vergi = subTotal * vergiOrani;
-  // console.log(vergi);
-  // const genelToplam = subTotal + vergi + kargo;
-  // console.log(genelToplam);
 };
