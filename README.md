@@ -75,67 +75,74 @@ Checkout App (folder)
 - JS
   - DOM Manipulations
     - innerHTML
-      ```
-      sonuclar.innerHTML = `
-        <h2 class="mt-3 text-warning">Kredi Bilgileri</h2>
-        <table class="table table-bordered border-warning mt-4">
-         <tbody>
-          <tr>
-            <th>Kredi Miktari</th>
-            <td>${tutar.value} ₺</td>
-            <th>Kredi Tipi</th>
-            <td>${select.value}</td>
-          </tr>
-          <tr>
-            <th>Vade</th>
-            <td>${vade.value}</td>
-            <th>Faiz Orani</th>
-            <td>${oran}</td>
-          </tr>
-          <tr>
-            <th>Toplam Tutar</th>
-            <td>${(taksit * vade.value).toFixed(2)} ₺</td>
-            <th>Taksit Tutari</th>
-            <td>${taksit.toFixed(2)} ₺</td>
-          </tr>
-        </tbody>
-      </table>
-       `;
-      ```
+    - innerText
+    - textContent
      
   - DOM Selectors
+  - querySelector
+  - querySelectorAll
+  - const productList = document.querySelector("div.main__product-painel"); //?basina div yazarak belirtirsek performans acisindan daha hizli olur
     
   - Events
     - click
-    ```
-          hesaplaBtn.addEventListener('click', (e) => {
-        //? preventDefault() event'ın default davranışı (submit etmek ve formu silmek) engeller
-        e.preventDefault();
-        if (select.value === 'Konut Kredisi') {
-          oran = 1.29;
-        } else if (select.value === 'Ihtiyac Kredisi') {
-          oran = 1.99;
-        } else if (select.value === 'Arac Kredisi') {
-          oran = 1.79;
-        }
-        if (!select.value || !vade.value || !tutar.value) {
-          alert('Lutfen Kredi turu, Vade ve tutari giriniz');
-        }
-      
-        const faiz = oran / 100;
-        taksit =
-          (tutar.value * (faiz * (1 + faiz) ** vade.value)) /
-          ((1 + faiz) ** vade.value - 1);
-      
-        // console.log(taksit);
-        sonuclariGoster();
-      });
-    
-    ```
-  - Builtin functions
-     - preventDefault()
+    - load
   
-  - if else - if - else conditions
+  -e.target & e.currentTarget
+    ```
+         e.currentTarget.firstElementChild.innerText = "My Cart";
+        //? NOT:e.target tiklanan elementi verirken e.currentTarget sabittir ve addEventListener in tanimlandigi elemandir burda navbarList  ve daha hizlidir
+    ```
+  - Capturing & Bubbling
+  - DOM Traversing
+    - nextElementSibling
+    - nextElementSibling
+    - e.target.closest(".main__product-info")
+    - if (e.target.classList.contains("fa-plus"))
+    - e.target.previousElementSibling.innerText++;
+    - firstElementChild
+    - children
+   
+  - localStorage & sessionStorage
+ 
+  
+  - Array Methods
+  - forEach() & reducer()
+     ```
+     forEach() ==> array, nodeList te calisir
+    let subtotal = 0;
+    productPriceDivs.forEach((price) => {
+        subtotal += parseFloat(price.innerText);
+    });
+    console.log(subtotal);
+    ```
+ 
+      ```
+    reduce()
+    const subTotalAlternatif = [...productPriceDivs]; //reduce icin array a dönüstürmeliyiz
+    let subtotal = subTotalAlternatif.reduce((acc, curr) => {
+        return acc + parseFloat(curr.innerText); //parseFloat  stringten float yapar
+    }, 0);
+
+    ```
+  
+  - parseFloat
+    ```
+    const taxPrice = parseFloat(subtotal * localStorage.getItem("taxRate")); parseFloat  stringten float yapar
+
+    ```
+
+  
+  - if else - if - else  conditions
+  - Ternary
+    ```
+     subTotal 3000 den büyükse shippingPrice 0 olmasi icin
+      const shippingPrice =
+          subtotal > 0 && subtotal < localStorage.getItem("freeShippingPrice")
+              ? parseFloat(localStorage.getItem("shippingPrice"))
+              : 0; //localStorage den gelen veriler string olarak gelir
+
+    ```
+ 
  
      
 
@@ -148,14 +155,14 @@ Checkout App (folder)
 
 ### At the end of the project, developers will be able to;
 
-- improve coding skills within HTML, Bootstrap and JS 
+- improve coding skills within HTML, CSS and JS 
 
 - use git commands (push, pull, commit, add etc.) and Github as a Version Control System.
 
 
 ## Notes
 
-- You can use HTML, Bootstrap and JS to complete this project.
+- You can use HTML, CSS and JS to complete this project.
 
 
 
