@@ -1,6 +1,6 @@
 # Checkout App
 
-![kredi hesaplama araci](https://github.com/kaplanh/Kredi-Hesaplama-Uygulamasi/assets/101884444/a24bb7a7-d960-4615-994e-8926818d4dac)
+![Checkout App](https://github.com/kaplanh/Checkout-App/assets/101884444/24150563-b9e7-4854-a0d6-ac1c87db85a8)
 
 
 [Click Me!](https://kaplanh.github.io/Checkout-App/)
