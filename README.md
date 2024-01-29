@@ -1,51 +1,75 @@
-# Checkout-App
+# Checkout App
 
 ![kredi hesaplama araci](https://github.com/kaplanh/Kredi-Hesaplama-Uygulamasi/assets/101884444/a24bb7a7-d960-4615-994e-8926818d4dac)
 
 
-[Click Me!](https://kaplanh.github.io/Kredi-Hesaplama-Uygulamasi/)
+[Click Me!](https://kaplanh.github.io/Checkout-App/)
 
 ## Description
 
-The project aims to create a Credit Calculator using JS and Bootstrap.
+The project aims to create a Checkout App using JS and Bootstrap.
 
 ## Problem Statement
 
-- Your company has recently started on a project that aims to create a Credit Calculator. So you and your colleagues have started to work on the project.
+- Your company has recently started on a project that aims to create a Checkout App. So you and your colleagues have started to work on the project.
 
 ## Project Skeleton 
 
 ```
-Monthly Expense Tracking Application (folder)
+Checkout App (folder)
 |
 |----readme.md                        
-|----index.html  
+|----index.html
+|----style.css
 |----app.js
+|----img (folder)
 ``` 
 
 
 ### At the end of the project, the following topics are to be covered;
 
 - HTML
-  - select input 
+  - font-awesome 
    ```
-    <label for="select">Kredi:</label>
-        
-        <select id="select" class="form-select mb-3 mt-2">
-          <option value="" selected>Seciniz</option>
-          <option value="Konut Kredisi">Konut Kredisi</option>
-          <option value="Ihtiyac Kredisi">Ihtiyac Kredisi</option>
-          <option value="Arac Kredisi">Arac Kredisi</option>
-        </select>
+     <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+            integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
    
    ```
  
--Bootstrap
- - Bootstrap form
- - Bootstrap table
- - Bootstrap flex
- - Bootstrap btn
- - Bootstrap text
+-CSS
+ - Nested CSS
+ - text-decoration: line-through
+ ```
+    .nav__list--btn {
+    color: orangered;
+    font-size: 14px;
+    cursor: pointer;
+
+    & i:hover {
+        color: white;
+        border-radius: 50%;
+        background-color: #ff7623;
+    }
+    }
+
+.line-through {
+    text-decoration: line-through;
+}
+   
+   ```
+- @media query
+
+ ```
+@media only screen and (max-width: 1150px) {
+    .nav__list {
+        padding: 0rem 1rem;
+    }
+  ```
   
   
 - JS
