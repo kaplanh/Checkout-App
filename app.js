@@ -1,8 +1,8 @@
 //* NOT:Global degiskenlerimi tanimlayip load event i ile localStorage 1 defa kaydettikten sonra hem degiskenlerimi hemde localStorage.setItem("taxRate", taxRate) i yoruma alabilirim cünkü kaydedildi artik
 
-// const taxRate = 0.18;
-// const shippingPrice = 25.99;
-// const freeShippingPrice = 3000;
+const taxRate = 0.18;
+const shippingPrice = 25.99;
+const freeShippingPrice = 3000;
 
 // ! localStorage vs. sessionStorage
 //? Global degiskenleri tanimlayip localStorage vs. sessionStorage atip sayfa her yload oldugunda verileri ordan cagirabiliriz
