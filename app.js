@@ -8,11 +8,11 @@ const freeShippingPrice = 3000;
 //? Global degiskenleri tanimlayip localStorage vs. sessionStorage atip sayfa her yload oldugunda verileri ordan cagirabiliriz
 
 window.addEventListener("load", () => {
-    // localStorage.setItem("taxRate", taxRate);
+    localStorage.setItem("taxRate", taxRate);
     // // sessionStorage.setItem("taxRate", taxRate);
-    // localStorage.setItem("shippingPrice", shippingPrice);
+    localStorage.setItem("shippingPrice", shippingPrice);
     // // sessionStorage.setItem("shippingPrice", shippingPrice);
-    // localStorage.setItem("freeShippingPrice", freeShippingPrice);
+    localStorage.setItem("freeShippingPrice", freeShippingPrice);
     // // sessionStorage.setItem("freeShippingPrice", freeShippingPrice);
 
     ///total cart calc.
